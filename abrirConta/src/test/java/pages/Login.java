@@ -3,7 +3,6 @@ package pages;
 
 import java.io.File;
 
-import java.util.NoSuchElementException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -11,50 +10,63 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
 
 
 
-public class Login  {
+public class Login extends FuncoesBrower  {
 	
+	@FindBy(xpath ="//div//a[@rel='abrir-nova-conta_desktop']")
+	private WebElement btnAbrirConta;
+	@FindBy(xpath ="//a[@id='bt1']")
+	private WebElement btnParaVC;
+	@FindBy(id ="nome")
+	private WebElement cmpNome;
+	@FindBy(id ="telefone")
+	private WebElement cmpTelefone;
+	@FindBy(id ="email")
+	private WebElement cmpEmail;
+	@FindBy(id ="cpf")
+	private WebElement cmpCpf;
+	@FindBy(xpath ="//div//input[@disabled='disabled']")
+	private WebElement btnEnviarDes;
 	
     WebDriver driver = new ChromeDriver();
 
 	public void abrirPagina() {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\sarahmoreira\\Documents\\gitgit\\abrirConta\\abrirConta\\src\\test\\resources\\chromedriver");
 		driver.get("https://www.original.com.br/");
 	}
 
 	public void selecionarAbrirNovaConta() {
-		driver.findElement(By.xpath("//div//a[@rel='abrir-nova-conta_desktop']")).click();
+		clicar(btnAbrirConta);
 
 	}
 
 	public void selecionarParaVocê() {
-		driver.findElement(By.xpath("//a[@id='bt1']")).click();
+		clicar(btnParaVC);
 	}
 
 	public void preencherCampos() {
-		driver.findElement(By.id("nome")).sendKeys("Vanessa Mariah das Neves");
-		driver.findElement(By.id("telefone")).sendKeys("64998478019");
-		driver.findElement(By.id("email")).sendKeys("vanessamariahdasnevesyahoo.se");
-		driver.findElement(By.id("cpf")).sendKeys("24636054806");
+		escrever(cmpNome, "Vanessa Mariah das Neves");
+		escrever(cmpTelefone, "64998478019");
+		escrever(cmpEmail, "vanessamariahdasnevesyahoo.se");
+		escrever(cmpCpf,"24636054806");
 	}
-
 	
-	public void validarMsgErro() { 
-		if (existsElement("emailMsgErrorInvalid")) {
-	  File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-	  Date data = new Date(); try { FileUtils.copyFile(scrFile, new File(
-	  "C:\\Users\\Sara\\eclipse-workspace\\abrirConta\\src\\test\\resources\\print"
-	  + data + ".jpg"),true); } catch (IOException e) { e.printStackTrace(); } } }
-	  
-	  
-	  
-	private boolean existsElement(String id) { try {
-	  driver.findElement(By.id(id)); } catch (NoSuchElementException e) { return
-	  false; } return true; }
-	  
-	  
+	public void validarCamposPreenchidos() { 
+		if (existsElement("//div//input[@disabled='disabled']")== true) {
+	        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+	        Date data = new Date(); 
+	    try { 
+		    FileUtils.copyFile(scrFile, new File("print" + data + ".jpg"),true); 
+		} 
+	    catch (IOException e) {
+	    	e.printStackTrace(); } } 
+	}
+	
+		
+
 } 

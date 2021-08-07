@@ -28,7 +28,7 @@ public class LoginSteps {
     @And("^preencher Campos$")
     public void preencherCampos() {
     	login.preencherCampos();
-    	login.validarMsgErro();
+    	login.validarCamposPreenchidos();
         
     }
 }
